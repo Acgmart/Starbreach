@@ -1,19 +1,18 @@
-// Copyright (c) Silicon Studio Corp. (https://www.siliconstudio.co.jp)
+﻿// Copyright (c) Silicon Studio Corp. (https://www.siliconstudio.co.jp)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using Starbreach;
 using Stride.Engine;
 using Stride.Games;
 using Stride.Graphics;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Starbreach
 {
     public class StarbreachGame : Game, IStarbreach
     {
         public Entity PlayerUiEntity { get; private set; }
-        
+
 
         public StarbreachGame()
         {
@@ -21,6 +20,7 @@ namespace Starbreach
             IsDrawDesynchronized = true;
         }
 
+        //工具方法 保存图片到地址
         public void SaveTexture(Texture texture, string path, ImageFileType fileType)
         {
             using (var stream = File.Create(path))
@@ -29,6 +29,7 @@ namespace Starbreach
             }
         }
 
+        //Game Create => Initialize => GraphicDevice Availlable => LoadContent
         protected override void Initialize()
         {
             base.Initialize();
@@ -43,18 +44,7 @@ namespace Starbreach
 
         protected override void BeginRun()
         {
-            //// TODO remove this hack to create a seperate UI scene when post effects no longer get applied to UI
-            //var compositor = (SceneGraphicsCompositorLayers)SceneSystem.SceneInstance.Scene.Settings.GraphicsCompositor;
-            //Entity uiEntity;
-            //SceneChildRenderer childRend1;
-            
             Scene uiScene = Content.Load<Scene>("UI/UISceneSoldier");
-
-            //            SceneSystem.SceneInstance.Scene.Entities.Add(uiEntity);
-            //            childRend1 = new SceneChildRenderer(uiEntity.Get<ChildSceneComponent>());
-            //            compositor.Master.Add(childRend1);
-
-            // TODO Hack the HUD
             PlayerUiEntity = uiScene.Entities.First(x => x.Name == "UI");
 
             base.BeginRun();
@@ -69,7 +59,7 @@ namespace Starbreach
         {
             base.Update(gameTime);
         }
-        
+
         protected override void Destroy()
         {
             base.Destroy();
